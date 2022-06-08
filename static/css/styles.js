@@ -63,5 +63,10 @@ export const styles = StyleSheet.create({
         elevation: 0,
         shadowOpacity: 0,
         borderBottomWidth: 0
+      },
+      register: {
+        alignContent: 'left',
+        alignItems: 'left',
+        justifyContent: 'left'
       }
     });

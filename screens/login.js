@@ -23,6 +23,9 @@ export function Login({navigation}){
             secureTextEntry={true}
             onChangeText = {(passwordinfo) => {updatePassword(passwordinfo)}}
             />
+            <SafeAreaView style={styles.register}>
+                <Button title='Register' style={styles.register}></Button>
+            </SafeAreaView>
             <TouchableOpacity 
             style= {styles.to}
             onPress={() => {login(email,password)}}>
