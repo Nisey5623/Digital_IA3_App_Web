@@ -20,7 +20,7 @@ export function success_check(object) {
     const t_or_f = object.success
     console.log(t_or_f)
     if (t_or_f) {
-        navigate('Userhome', {})
+        navigate('Userhome')
     }
 
 }

@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, SafeAreaView, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
-import { Component, useState } from 'react'
+import { useState } from 'react'
 import { styles } from '../static/css/styles'
-import { login } from '../static/js/functions.js'
+import { login, navigate } from '../static/js/functions.js'
 
 export function Login({navigation}){
     const [email, updateEmail]= useState("")
@@ -24,7 +24,7 @@ export function Login({navigation}){
             onChangeText = {(passwordinfo) => {updatePassword(passwordinfo)}}
             />
             <SafeAreaView style={styles.register}>
-                <Button title='Register' style={styles.register}></Button>
+                <Button title='Register' style={styles.register} onPress={() => {navigate('Register')}}></Button>
             </SafeAreaView>
             <TouchableOpacity 
             style= {styles.to}

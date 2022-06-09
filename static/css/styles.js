@@ -44,7 +44,23 @@ export const styles = StyleSheet.create({
           borderColor: 'grey',
           borderWidth: 1,
       },
-
+      namerow: {
+        flexDirection: 'row',
+        flex: 2,
+      },
+      inputnames: {
+        width: Dimensions.get('window').width * 0.45,
+        height: '5%',
+        alignContent: 'center',
+        borderRadius: 10,
+        borderColor: 'grey',
+        borderWidth: 1,
+      },
+      nameswrap: {
+        flex: 1,
+        alignContent: 'center',
+        alignItems: 'center'
+      },
       to: {
         alignItems: "center",
         backgroundColor: "#3366ff",
