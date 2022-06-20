@@ -36,6 +36,22 @@ export const styles = StyleSheet.create({
           height: '100%',
           width: '100%',
       },
+      insidesafeAreaView: {
+        flex: 2,
+        backgroundColor: styleSheetConstants.backgroundColour,
+        alignItems: 'center',
+        textAlign: 'left',
+        //color: styleSheetConstants.textColour,
+        height: '100%',
+        width: '95%',
+        padding: '10%',
+        marginLeft: '3%',
+    },
+      scrollView: {
+          backgroundColor: styleSheetConstants.backgroundColour,
+          alignContent: 'center',
+          //color: styleSheetConstants.textColour
+      },
       input: {
           width: Dimensions.get('window').width * 0.9,
           height: '4%',
@@ -44,6 +60,14 @@ export const styles = StyleSheet.create({
           borderColor: 'grey',
           borderWidth: 1,
       },
+      inputlyrics: {
+        width: Dimensions.get('window').width * 0.9,
+        height: '23%',
+        alignContent: 'center',
+        borderRadius: 10,
+        borderColor: 'grey',
+        borderWidth: 1,
+    },
       namerow: {
         flexDirection: 'row',
         flex: 2,
@@ -66,7 +90,8 @@ export const styles = StyleSheet.create({
         backgroundColor: "#3366ff",
         padding: 10,
         width: "50%",
-        marginTop: 10
+        marginTop: 10,
+        borderRadius: '10%',
       },     
 
       pageHeading: {

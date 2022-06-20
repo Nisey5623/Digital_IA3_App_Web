@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { styles } from '../static/css/styles'
 import { login, navigate } from '../static/js/functions.js'
 
-export function Login({navigation}){
+export function Loginpage({navigation}){
     const [email, updateEmail]= useState("")
     const [password, updatePassword]= useState("")
 

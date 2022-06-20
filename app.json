@@ -28,6 +28,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Digital IA3 Assessment.",
+    "githubUrl": "https://github.com/22nisbettl/Digital_IA3_App_Web"
   }
 }

@@ -8,9 +8,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator} from '@react-navigation/drawer';
 
-import { Register } from './screens/register.js';
-import { Login } from './screens/login';
-import { Home } from './screens/userhome'
+import { Registerpage } from './screens/register.js';
+import { Loginpage } from './screens/login';
+import { Homepage } from './screens/userhome'
 import { navigationRef } from './static/js/functions.js';
 
 const Drawer = createDrawerNavigator();
@@ -33,9 +33,9 @@ function App() {
           fontSize: 15,
         },
       }}> 
-        <Drawer.Screen name="Login" component={Login} />
-        <Drawer.Screen name="Userhome" component={Home} />
-        <Drawer.Screen name="Register" component={Register} />
+        <Drawer.Screen name="Login" component={Loginpage} />
+        <Drawer.Screen name="Userhome" component={Homepage} />
+        <Drawer.Screen name="Register" component={Registerpage} />
       </Drawer.Navigator>
     </NavigationContainer>    
   );

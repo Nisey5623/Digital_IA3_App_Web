@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, SafeAreaView, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
 import { useState } from 'react'
 import { styles } from '../static/css/styles';
+import { register } from '../static/js/functions';
 
-export function Register({navigation}){
+export function Registerpage({navigation}){
     const [email, updateEmail]= useState("")
     const [password, updatePassword]= useState("")
     const [fname, updateFname]= useState("")
@@ -13,14 +14,13 @@ export function Register({navigation}){
 
     return(
         <SafeAreaView style={styles.safeAreaView}>
-            <Text>Register Page</Text>
             <View style={styles.namerow}>
                 <View style={styles.nameswrap}>
                     <Text style={styles.text}>First Name</Text>
                     <TextInput
                     style = {styles.inputnames}
                     placeholder = "Enter first name"
-                    onChangeText = {(emailinfo) => {updateEmail(emailinfo)}}
+                    onChangeText = {(fnameinfo) => {updateFname(fnameinfo)}}
                     />
                 </View>
                 <View style={styles.nameswrap}>
@@ -28,7 +28,7 @@ export function Register({navigation}){
                     <TextInput
                     style = {styles.inputnames}
                     placeholder = "Enter surname"
-                    onChangeText = {(emailinfo) => {updateEmail(emailinfo)}}
+                    onChangeText = {(snameinfo) => {updateSurname(snameinfo)}}
                     />
                 </View>
             </View>
@@ -36,7 +36,7 @@ export function Register({navigation}){
             <TextInput
             style = {styles.input}
             placeholder = "Enter username"
-            onChangeText = {(emailinfo) => {updateEmail(emailinfo)}}
+            onChangeText = {(usernameinfo) => {updateUsername(usernameinfo)}}
             />
             <Text style={styles.text}>Email</Text>
             <TextInput
@@ -48,8 +48,14 @@ export function Register({navigation}){
             <TextInput
             style = {styles.input}
             placeholder = "Enter password"
-            onChangeText = {(emailinfo) => {updateEmail(emailinfo)}}
+            onChangeText = {(passwordinfo) => {updatePassword(passwordinfo)}}
             />
+            <TouchableOpacity 
+            style= {styles.to}
+            onPress={() => {register(fname, surname, username, email, password)}}>
+            <Text 
+            style={styles.whitetext}>Register</Text>
+            </TouchableOpacity>
             <StatusBar style="auto" />
         </SafeAreaView>
     )}
