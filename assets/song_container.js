@@ -1,0 +1,76 @@
+import React from 'react';
+import { Text, View, StyleSheet, Image, Dimensions, TouchableWithoutFeedback} from 'react-native';
+import Constants from 'expo-constants';
+
+// import Sound from 'react-native-audio';
+// Sound.setCategory('Playback')
+
+export function SongContainer(props) {
+  return (
+    
+    <TouchableWithoutFeedback>
+      <View style={styles.resultContainer}>
+      
+        <View style = {styles.imageContainer}>
+          <Image source={{
+            uri: props.source,
+          }} style={{width:64, height: 64}}/>
+        </View>
+        <View style = {styles.detailsContainer}>
+          <Text style={styles.trackName} numberOfLines={1}>{props.trackName}</Text>
+          <Text style={styles.artists} numberOfLines={1}>{props.artists}</Text>
+          <Text style={styles.albumName} numberOfLines={1}>{props.albumName}</Text>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#ecf0f1',
+    padding: 8,
+  },
+  paragraph: {
+    margin: 24,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  resultContainer: {
+    position: "relative",
+    width: Dimensions.get('window').width ,
+    flexDirection: "row",
+    margin: 7
+    
+  }, trackName:{
+    fontSize: 18,
+    color: 'black'
+  }, artists: {
+    fontSize: 14,
+    color: 'black'
+  }
+  , albumName: {
+    fontSize: 14,
+    color: 'black'    
+  },
+  imageContainer: {
+    position: "relative",
+    height: 64,
+    width: 64,
+    marginLeft: -1,
+    marginTop: -1,
+    marginBottom: -1,
+    marginRight: 5,
+  },
+  detailsContainer: {
+    position: "absolute",
+    width: Dimensions.get('window').width - 74, //74 is position + margin
+    height: 64,
+    overflow: "auto",
+    left: 69,
+  }
+});

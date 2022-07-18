@@ -8,9 +8,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator} from '@react-navigation/drawer';
 
+import { Userhome } from './screens/userhome.js';
 import { Registerpage } from './screens/register.js';
 import { Loginpage } from './screens/login';
-import { Homepage } from './screens/userhome'
+import { Lyrics } from './screens/lyrics'
+import { Search } from './screens/search.js';
+import { Events } from './screens/events.js';
 import { navigationRef } from './static/js/functions.js';
 
 const Drawer = createDrawerNavigator();
@@ -20,22 +23,20 @@ export default
 function App() {
   return (
     <NavigationContainer ref={navigationRef}>
-      <Drawer.Navigator  drawerContent={props => <CustomDrawer {...props} />}
+      <Drawer.Navigator 
       screenOptions={{
         headerShown: true,
         headerTitleStyle: {
           color: 'white'
         },
-        drawerActiveBackgroundColor: '#0f0082',
-        drawerActiveTintColor: '#fff',
-        drawerInactiveTintColor: '#fff',
-        drawerLabelStyle: {
-          fontSize: 15,
-        },
+        
       }}> 
         <Drawer.Screen name="Login" component={Loginpage} />
-        <Drawer.Screen name="Userhome" component={Homepage} />
         <Drawer.Screen name="Register" component={Registerpage} />
+        <Drawer.Screen name="Userhome" component={Userhome} />
+        <Drawer.Screen name="Lyrics" component={Lyrics} />
+        <Drawer.Screen name="Search" component={Search} />
+        <Drawer.Screen name="Events" component={Events} />
       </Drawer.Navigator>
     </NavigationContainer>    
   );

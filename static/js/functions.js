@@ -1,10 +1,29 @@
 import { ajax_handler, create_form_data } from './ajaxhandler'
 import { createNavigationContainerRef } from '@react-navigation/native';
 import {useContext} from "react";
-import { LyricsContext } from '../../screens/userhome';
+import { LyricsContext } from '../../screens/lyrics';
 
 export let UserID = null;
 export const navigationRef = createNavigationContainerRef()
+
+export function spotify_search(song, callback) {
+  const data = null;
+  console.log(song)
+  const xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+
+  xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE) {
+      callback(JSON.parse(this.responseText));
+    }
+  });
+
+  xhr.open("GET", `https://spotify23.p.rapidapi.com/search/?q=${song}&type=multi&offset=0&limit=10&numberOfTopResults=5`);
+  xhr.setRequestHeader("X-RapidAPI-Key", "988768d5acmsh98ee21ca7b4aed4p1d5b65jsn80bbfcd199dc");
+  xhr.setRequestHeader("X-RapidAPI-Host", "spotify23.p.rapidapi.com");
+
+  xhr.send(data);
+}
 
 export function check_logged() {
   console.log(UserID)
@@ -35,7 +54,14 @@ export function login(email, password) {
   ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', login_success_check, create_form_data(login_data));
 }
 
+export function events() {
+  ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', events_process);
+}
 
+export function events_process(object) {
+  console.log(object)
+  
+}
 
 export function register_success_check(object) {
   console.log(object)
