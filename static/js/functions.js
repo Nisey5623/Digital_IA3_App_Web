@@ -54,15 +54,6 @@ export function login(email, password) {
   ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', login_success_check, create_form_data(login_data));
 }
 
-export function events() {
-  ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', events_process);
-}
-
-export function events_process(object) {
-  console.log(object)
-  
-}
-
 export function register_success_check(object) {
   console.log(object)
   const t_or_f = object.success
