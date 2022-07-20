@@ -73,7 +73,7 @@ export function Events({navigation}){
             onPress={() => {
                 setModalVisible(true)
             }}
-            ></TouchableOpacity>
+            >Create Event</TouchableOpacity>
             <FlatList data={eventResults} extraData={eventResults} style= {{flex: 1}}renderItem={({item, index}) =>{
             return (
                 <TouchableWithoutFeedback>
