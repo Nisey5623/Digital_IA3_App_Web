@@ -58,9 +58,9 @@ export function Events({navigation}){
         }
     };
 
-    const [latitude, updateLatitude] = useState()
+    var [latitude, updateLatitude] = useState(0.0)
     //console.log(latitude)
-    const [longitude, updateLongitude] = useState()
+    var [longitude, updateLongitude] = useState(0.0)
     //console.log(longitude)
     const [modal1Visible, setModal1Visible] = useState(false);
     const [modal2Visible, setModal2Visible] = useState(false);
@@ -157,18 +157,16 @@ export function Events({navigation}){
                             <SafeAreaView style={styles.safeAreaView}>
                                 <MapView style={styles.map}
                                 initialRegion={{
-                                    latitude: -27.439229,
-                                    longitude: 152.9777076,
-                                    latitudeDelta: 0.6,
-                                    longitudeDelta: 0.6,
+                                    latitude: -27.4705,
+                                    longitude: 153.0260,
+                                    latitudeDelta: 0.09,
+                                    longitudeDelta: 0.09,
                                   }}><Marker
                                 //latitude={latitude}
                                 //longitude={longitude}
                                 pinColor={"red"}
-                                coordinate={{latitude:-27.439229,longitude: 152.9777076,}}
+                                coordinate={{latitude: latitude,longitude: longitude,}}
                                 ></Marker></MapView>
-                                <Text>{latitude}</Text>
-                                <Text>{longitude}</Text>
                             </SafeAreaView>
                             <Pressable
                             style={[styles.button, styles.buttonClose]}
