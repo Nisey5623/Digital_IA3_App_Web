@@ -6,6 +6,25 @@ import { LyricsContext } from '../../screens/lyrics';
 export let UserID = null;
 export const navigationRef = createNavigationContainerRef()
 
+export function map_search(place, callback) {
+  const data = null;
+
+  const xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+
+  xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE) {
+      callback(JSON.parse(this.responseText));
+    }
+  });
+
+  xhr.open("GET", `https://google-maps28.p.rapidapi.com/maps/api/place/textsearch/json?query=${place}&region=en&language=en`);
+  xhr.setRequestHeader("X-RapidAPI-Key", "988768d5acmsh98ee21ca7b4aed4p1d5b65jsn80bbfcd199dc");
+  xhr.setRequestHeader("X-RapidAPI-Host", "google-maps28.p.rapidapi.com");
+
+  xhr.send(data);
+}
+
 export function spotify_search(song, callback) {
   const data = null;
   console.log(song)
@@ -49,6 +68,12 @@ export function register(fname, sname, uname, email, password) {
 }
 
 export function login(email, password) {
+  const login_data = {'email':email, 'password':password}
+  
+  ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', login_success_check, create_form_data(login_data));
+}
+
+export function event(name, userid, location) {
   const login_data = {'email':email, 'password':password}
   
   ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', login_success_check, create_form_data(login_data));

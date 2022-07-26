@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator} from '@react-navigation/drawer';
 
+import { styles } from './static/css/styles.js';
 import { Userhome } from './screens/userhome.js';
 import { Registerpage } from './screens/register.js';
 import { Loginpage } from './screens/login';
@@ -38,6 +39,14 @@ function App() {
         <Drawer.Screen name="Search" component={Search} />
         <Drawer.Screen name="Events" component={Events} />
       </Drawer.Navigator>
+      <SafeAreaView style= {styles.bottomView}>
+      <TouchableOpacity
+            style= {styles.to}
+            onPress={() => {
+                setModal1Visible(true)
+            }}
+            ><Text style={styles.whitetext}>Create Event</Text></TouchableOpacity>
+      </SafeAreaView>
     </NavigationContainer>    
   );
 }

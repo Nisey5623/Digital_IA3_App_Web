@@ -13,25 +13,7 @@ export function Registerpage({navigation}){
 
 
     return(
-        <SafeAreaView style={styles.safeAreaView}>
-            <View style={styles.namerow}>
-                <View style={styles.nameswrap}>
-                    <Text style={styles.text}>First Name</Text>
-                    <TextInput
-                    style = {styles.inputnames}
-                    placeholder = "Enter first name"
-                    onChangeText = {(fnameinfo) => {updateFname(fnameinfo)}}
-                    />
-                </View>
-                <View style={styles.nameswrap}>
-                    <Text style={styles.text}>Surname</Text>
-                    <TextInput
-                    style = {styles.inputnames}
-                    placeholder = "Enter surname"
-                    onChangeText = {(snameinfo) => {updateSurname(snameinfo)}}
-                    />
-                </View>
-            </View>
+        <SafeAreaView style={styles.registersafeAreaView}>
             <Text style={styles.text}>Username</Text>
             <TextInput
             style = {styles.input}
@@ -50,6 +32,24 @@ export function Registerpage({navigation}){
             placeholder = "Enter password"
             onChangeText = {(passwordinfo) => {updatePassword(passwordinfo)}}
             />
+            <View style={styles.namerow}>
+                <View style={styles.nameswrap}>
+                    <Text style={styles.text}>First Name</Text>
+                    <TextInput
+                    style = {styles.inputnames}
+                    placeholder = "Enter first name"
+                    onChangeText = {(fnameinfo) => {updateFname(fnameinfo)}}
+                    />
+                </View>
+                <View style={styles.nameswrap}>
+                    <Text style={styles.text}>Surname</Text>
+                    <TextInput
+                    style = {styles.inputnames}
+                    placeholder = "Enter surname"
+                    onChangeText = {(snameinfo) => {updateSurname(snameinfo)}}
+                    />
+                </View>
+            </View>
             <TouchableOpacity 
             style= {styles.to}
             onPress={() => {register(fname, surname, username, email, password)}}>

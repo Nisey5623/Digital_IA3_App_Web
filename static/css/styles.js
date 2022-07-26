@@ -36,6 +36,24 @@ export const styles = StyleSheet.create({
     //height: '100%',
     width: '100%',
   },
+
+  bottomView: {
+    backgroundColor: styleSheetConstants.backgroundColour,
+    alignItems: 'center',
+    //color: styleSheetConstants.textColour,
+    height: '5%',
+    width: '100%',
+  },
+
+  registersafeAreaView: {
+    flex: 3,
+    backgroundColor: styleSheetConstants.backgroundColour,
+    alignItems: 'center',
+    //color: styleSheetConstants.textColour,
+    //height: '100%',
+    width: '100%',
+  },
+
   userhomeView: {
     flex: 1,
     backgroundColor: styleSheetConstants.backgroundColour,
@@ -81,6 +99,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1
   },
+  map: {
+    width: Dimensions.get('window').width*0.7,
+    height: Dimensions.get('window').height*0.3,
+  },
   inputnames: {
     width: Dimensions.get('window').width * 0.45,
     height: '5%',
@@ -91,7 +113,7 @@ export const styles = StyleSheet.create({
   },
   nameswrap: {
     flex: 2,
-    alignContent: 'center',
+    //alignContent: 'center',
     alignItems: 'center'
   },
   to: {
@@ -148,5 +170,38 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22
+  },
+  pickedDateContainer: {
+    padding: 20,
+    backgroundColor: '#eee',
+    borderRadius: 10,
+  },
+  pickedDate: {
+    fontSize: 18,
+    color: 'black',
+  },
+  btnContainer: {
+    padding: 30,
+  },
+  // This only works on iOS
+  datePicker: {
+    width: 200,
+
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  daterow: {
+    flexDirection: 'row',
+   
+  },
+  map: {
+    width: Dimensions.get('window').width*0.7,
+    height: Dimensions.get('window').height*0.3,
+  },
+  dateswrap: {
+    flex: 2,
+    //alignContent: 'center',
+    alignItems: 'center'
   },
 });
