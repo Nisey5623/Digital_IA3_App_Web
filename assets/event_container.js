@@ -17,9 +17,9 @@ export function EventContainer(props) {
           }} style={{width:64, height: 64}}/>
         </View>
         <View style = {styles.detailsContainer}>
-          <Text style={styles.trackName} numberOfLines={1}>{props.trackName}</Text>
-          <Text style={styles.artists} numberOfLines={1}>{props.artists}</Text>
-          <Text style={styles.albumName} numberOfLines={1}>{props.albumName}</Text>
+          <Text style={styles.eventName} numberOfLines={1}>{props.eventName}</Text>
+          <Text style={styles.location} numberOfLines={1}>{props.location}</Text>
+          <Text style={styles.dates} numberOfLines={1}>{props.startDate} - {props.endDate}</Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -46,14 +46,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     margin: 7
     
-  }, trackName:{
+  }, eventName:{
     fontSize: 18,
     color: 'black'
-  }, artists: {
+  }, location: {
     fontSize: 14,
     color: 'black'
   }
-  , albumName: {
+  , dates: {
     fontSize: 14,
     color: 'black'    
   },

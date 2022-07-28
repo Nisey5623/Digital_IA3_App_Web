@@ -13,7 +13,6 @@ export function SongContainer(props) {
       
         <View style = {styles.imageContainer}>
           <Image source={{
-            uri: props.source,
           }} style={{width:64, height: 64}}/>
         </View>
         <View style = {styles.detailsContainer}>

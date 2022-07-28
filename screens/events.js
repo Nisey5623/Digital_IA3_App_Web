@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, SafeAreaView, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Modal, Pressable, Dimensions, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { styles } from '../static/css/styles'
+import { event } from '../static/js/functions';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { ajax_handler, create_form_data } from '../static/js/ajaxhandler';
 import { check_logged } from '../static/js/functions';
 import { SongContainer } from '../assets/song_container.js'
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
+import * as ImagePicker from 'expo-image-picker'
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 function simplifySearchResponse(data){
@@ -69,7 +71,9 @@ export function Events({navigation}){
         updateResults(simplifySearchResponse(data))
     }
     useEffect(() => {
+        const interval = setInterval(() => {console.log("Test")},1000)
         ajax_handler('https://22nisbettl.pythonanywhere.com/react_events', handleSearchResponse);
+        return () => clearInterval(interval)
     })
 
     const [eventName, updateEventName]= useState("")
@@ -80,6 +84,24 @@ export function Events({navigation}){
         longitude: 152.9777076,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
+      };
+
+    const [image, setImage] = useState(null);
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.cancelled) {
+          setImage(result.uri);
+        }
       };
 
     return(
@@ -127,13 +149,16 @@ export function Events({navigation}){
                                 style={styles.datePicker}
                                 />
                                 <Text style={styles.pickedDate}>{edate.toUTCString()}</Text>
+                                <Button title="Pick an image from camera roll" onPress={pickImage} />
+                                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                                 <TouchableOpacity
                                 style= {styles.to}
                                 onPress={() => {
-                                    register(fname, surname, username, email, password)
+                                    event(eventName, '1', location, sdate, edate)
                                     setModal1Visible(false)
                                 }}
-                                ><Text style={styles.whitetext}>Create</Text></TouchableOpacity>
+                                >      
+                                <Text style={styles.whitetext}>Create</Text></TouchableOpacity>
                             </SafeAreaView>
                             <Pressable
                             style={[styles.button, styles.buttonClose]}

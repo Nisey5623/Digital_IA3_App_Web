@@ -73,10 +73,10 @@ export function login(email, password, navigation) {
   ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', login_success_check, create_form_data(login_data), "POST", true, navigation );
 }
 
-export function event(name, userid, location) {
-  const login_data = {'email':email, 'password':password}
+export function event(eventName, userid, location, startDate, endDate) {
+  const event_data = {'eventName':eventName, 'userid':userid, 'location':location,'startDate':startDate,'endDate':endDate}
   
-  ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', login_success_check, create_form_data(login_data));
+  ajax_handler('https://22nisbettl.pythonanywhere.com/react_eventsend', console.log(), create_form_data(event_data));
 }
 
 export function register_success_check(object) {

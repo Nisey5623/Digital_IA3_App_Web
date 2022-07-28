@@ -73,7 +73,7 @@ export function Userhome({navigation}){
         const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
         return `${minutesDisplay}:${secondsDisplay}`;
       }
-
+      
     function getRecordingLines() {
         return recordings.map((recordingLine, index) => {
           return (
