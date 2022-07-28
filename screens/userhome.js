@@ -61,6 +61,9 @@ export function Userhome({navigation}){
         });
     
         setRecordings(updatedRecordings);
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: false,
+        });
       }
 
       function getDurationFormatted(millis) {
@@ -77,7 +80,7 @@ export function Userhome({navigation}){
             <View key={index} style={styles.row}>
               <Text style={styles.fill}>Recording {index + 1} - {recordingLine.duration}</Text>
               <Button style={styles.button} onPress={() => {recordingLine.sound.replayAsync();
-            recordingLine.sound.setVolumeAsync(100)}} title="Play"></Button>
+              recordingLine.sound.setVolumeAsync(100)}} title="Play"></Button>
               <Button style={styles.button} onPress={() => Sharing.shareAsync(recordingLine.file)} title="Share"></Button>
             </View>
           );
