@@ -41,9 +41,23 @@ export const styles = StyleSheet.create({
     backgroundColor: styleSheetConstants.backgroundColour,
     alignItems: 'center',
     //color: styleSheetConstants.textColour,
-    height: '5%',
+    height: '8.5%',
     width: '100%',
   },
+
+  bottomtext: {
+    color: "#ffffff",
+    fontSize: 14,
+  },
+
+  bto: {
+    alignItems: "center",
+    backgroundColor: "#3366ff",
+    padding: 5,
+    width: "50%",
+    marginTop: 10,
+    borderRadius: '10%',
+  },    
 
   registersafeAreaView: {
     flex: 3,
@@ -61,6 +75,7 @@ export const styles = StyleSheet.create({
     //color: styleSheetConstants.textColour,
     //height: '100%',
     width: '100%',
+    height: '20%',
     flexDirection: 'row',
 },
   insidesafeAreaView: {
@@ -129,9 +144,10 @@ export const styles = StyleSheet.create({
     backgroundColor: "#3366ff",
     padding: 10,
     width: "32%",
-    height: "20%",
+    height: "13%",
     marginTop: 10,
-    marginLeft: 4
+    marginLeft: 4,
+    borderRadius: '7%',
   },     
 
   pageHeading: {

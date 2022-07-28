@@ -67,10 +67,10 @@ export function register(fname, sname, uname, email, password) {
     ajax_handler('https://22nisbettl.pythonanywhere.com/react_register', register_success_check, create_form_data(register_data));
 }
 
-export function login(email, password) {
+export function login(email, password, navigation) {
   const login_data = {'email':email, 'password':password}
-  
-  ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', login_success_check, create_form_data(login_data));
+  console.log(login_data)
+  ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', login_success_check, create_form_data(login_data), "POST", true, navigation );
 }
 
 export function event(name, userid, location) {
@@ -90,13 +90,13 @@ export function register_success_check(object) {
   }
 }
 
-export function login_success_check(object) {
+export function login_success_check(object, random_crap) {
     console.log(object)
     const t_or_f = object.success
     console.log(t_or_f)
     if (t_or_f) {
         UserID = object.userid
-        navigate('Userhome')
+        random_crap.navigate("MainNav")
     }
 }
 

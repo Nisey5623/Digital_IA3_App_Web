@@ -24,11 +24,11 @@ export function Loginpage({navigation}){
             onChangeText = {(passwordinfo) => {updatePassword(passwordinfo)}}
             />
             <SafeAreaView style={styles.register}>
-                <Button title='Register' style={styles.register} onPress={() => {navigate('Register')}}></Button>
+                <Button title='Register' style={styles.register} onPress={() => {navigation.navigate('Register')}}></Button>
             </SafeAreaView>
             <TouchableOpacity 
             style= {styles.to}
-            onPress={() => {login(email,password)}}>
+            onPress={() => {login(email, password, navigation)}}>
             <Text 
             style={styles.whitetext}>Login</Text>
             </TouchableOpacity>

@@ -8,7 +8,7 @@ export function create_form_data(data){
     return form_data
  }
 
-export function ajax_handler(url, callback=console.log, form_object=null, request_method='POST', async_var = true){
+export function ajax_handler(url, callback=console.log, form_object=null, request_method='POST', async_var = true, random_crap={}){
     const XMLhr = new XMLHttpRequest();
 
     XMLhr.open(request_method, url, async_var);
@@ -19,7 +19,7 @@ export function ajax_handler(url, callback=console.log, form_object=null, reques
         
         if (XMLhr.status === 200){
             let response = JSON.parse(XMLhr.responseText);
-            callback(response);
+            callback(response, random_crap);
             return
         }
         console.log(`XMLHttpRequest returned status code of: ${XMLhr.status}`);
