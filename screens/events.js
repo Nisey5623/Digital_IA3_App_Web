@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, SafeAreaView, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Modal, Pressable, Dimensions, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, Text, TextInput, Image, View, ScrollView, TouchableOpacity, Modal, Pressable, Dimensions, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { styles } from '../static/css/styles'
 import { event } from '../static/js/functions';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { ajax_handler, create_form_data } from '../static/js/ajaxhandler';
 import { check_logged } from '../static/js/functions';
 import { SongContainer } from '../assets/song_container.js'
+import { EventContainer } from '../assets/event_container';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import * as ImagePicker from 'expo-image-picker'
@@ -28,8 +29,8 @@ function simplifySearchResponse(data){
         const Latitude = event.Latitude
         const File = event.File
         eventData.push(
-            {'Latitude':Latitude, 'Longitude':Longitude,'trackName': EventName, 'previewURL': UserID, 'duration': Location,
-            'artists': StartDate, 'albumName':EndDate, 'source': File, 'trackID': eventID}
+            {'Latitude':Latitude, 'Longitude':Longitude,'eventName': EventName, 'previewURL': UserID, 'location': Location,
+            'startDate': StartDate, 'endDate':EndDate, 'source': File, 'trackID': eventID}
         );
     }
     //console.log(eventData)
@@ -67,19 +68,24 @@ export function Events({navigation}){
     const [modal1Visible, setModal1Visible] = useState(false);
     const [modal2Visible, setModal2Visible] = useState(false);
     const [eventResults, updateResults] = useState([])
+
+    const [eventSearch, updateSearch] = useState("")
     const handleSearchResponse = data => {
         updateResults(simplifySearchResponse(data))
+        console.log(data)
     }
     useEffect(() => {
         const interval = setInterval(() => {console.log("Test")},1000)
-        ajax_handler('https://22nisbettl.pythonanywhere.com/react_events', handleSearchResponse);
+        const event_data = {'eventSearch':eventSearch}
+        console.log(event_data)
+        ajax_handler('https://22nisbettl.pythonanywhere.com/react_events_search', handleSearchResponse, create_form_data(event_data));
         return () => clearInterval(interval)
     })
 
     const [eventName, updateEventName]= useState("")
     const [location, updateLocation]= useState("")
 
-    const tokyoRegion = {
+    const region = {
         latitude: -27.439229,
         longitude: 152.9777076,
         latitudeDelta: 0.01,
@@ -209,6 +215,12 @@ export function Events({navigation}){
                     setModal1Visible(true)
                 }}
             ><Text style={styles.whitetext}>Create Event</Text></TouchableOpacity>
+            <Text></Text>
+            <TextInput
+                style = {styles.input}
+                placeholder = "Search event"
+                onChangeText = {(events) => {updateSearch(events)}}
+            />
             <FlatList data={eventResults} extraData={eventResults} style= {{flex: 1}}
             renderItem={({item, index}) =>{
             return (
@@ -219,8 +231,8 @@ export function Events({navigation}){
                         setModal2Visible(true)
                     }}>
                     <View style={{width: Dimensions.get('window').width}} >
-                        <SongContainer source = {item.source} previewURL = {item.previewURL} 
-                        trackName = {item.trackName} artists = {item.artists} albumName = {item.albumName} />
+                        <EventContainer source = {item.source}
+                        eventName = {item.eventName} location = {item.location} startDate = {item.startDate} endDate = {item.endDate} />
                     </View>
                 </TouchableOpacity>
             )
