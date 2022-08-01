@@ -96,17 +96,44 @@ export function Userhome({navigation}){
     
         let updatedRecordings = [...recordings];
         const { sound, status } = await recording.createNewLoadedSoundAsync();
+        const uri = recording.getURI()
+        console.log(uri)
         updatedRecordings.push({
           sound: sound,
           duration: getDurationFormatted(status.durationMillis),
           file: recording.getURI()
         });
-        console.log(updatedRecordings[file])
     
         setRecordings(updatedRecordings);
         await Audio.setAudioModeAsync({
           allowsRecordingIOS: false,
         });
+      }
+
+      async function uploadAudioAsync(uri) {
+        console.log("Uploading " + uri);
+        let apiUrl = 'https://22nisbettl.pythonanywhere.com/uploadaudio';
+        let uriParts = uri.split('.');
+        let fileType = uriParts[uriParts.length - 1];
+      
+        let formData = new FormData();
+        formData.append('file', {
+          uri,
+          name: `recording.${fileType}`,
+          type: `audio/x-${fileType}`,
+        });
+      
+        let options = {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      
+        console.log("POSTing " + uri + " to " + apiUrl);
+        return fetch(apiUrl, options);
       }
 
       function getDurationFormatted(millis) {
@@ -123,8 +150,10 @@ export function Userhome({navigation}){
             <View key={index} style={styles.row}>
               <Text style={styles.fill}>Recording {index + 1} - {recordingLine.duration}</Text>
               <Button style={styles.button} onPress={() => {recordingLine.sound.replayAsync();
-              recordingLine.sound.setVolumeAsync(100)}} title="Play"></Button>
-              <Button style={styles.button} onPress={() => {}} title="Upload"></Button>
+              recordingLine.sound.setVolumeAsync(1);}} title="Play"></Button>
+              <Button style={styles.button} onPress={() => {
+                uploadAudioAsync(recordingLine.file)
+                }} title="Upload"></Button>
               <Button style={styles.button} onPress={() => Sharing.shareAsync(recordingLine.file)} title="Share"></Button>
             </View>
           );
@@ -168,7 +197,7 @@ export function Userhome({navigation}){
                     <TouchableOpacity 
                         onPress={() => {
                           const eventid = {'EventID':item.trackID}
-                          console.log(eventid)
+                          //console.log(eventid)
                           ajax_handler('https://22nisbettl.pythonanywhere.com/react_events_delete', handleSearchResponse, create_form_data(eventid));
                         }}>
                         <View style={{width: Dimensions.get('window').width}} >

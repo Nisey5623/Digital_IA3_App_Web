@@ -72,12 +72,12 @@ export function Events({navigation}){
     const [eventSearch, updateSearch] = useState("")
     const handleSearchResponse = data => {
         updateResults(simplifySearchResponse(data))
-        console.log(data)
+        //console.log(data)
     }
     useEffect(() => {
         const interval = setInterval(() => {console.log("Test")},1000)
         const event_data = {'eventSearch':eventSearch}
-        console.log(event_data)
+        //console.log(event_data)
         ajax_handler('https://22nisbettl.pythonanywhere.com/react_events_search', handleSearchResponse, create_form_data(event_data));
         return () => clearInterval(interval)
     })
