@@ -129,6 +129,10 @@ export function Userhome({navigation}){
         name: `${UserID}${recordingName}.${fileType}`,
         type: `audio/x-${fileType}`,
       });
+      formData.append('database', {
+        UserID: `${UserID}`,
+        Rname: `${recordingName}`,
+      })
       console.log(formData)
     
       let options = {
