@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, SafeAreaView, StyleSheet, Text, TextInput, View, FlatList, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { Button, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View, FlatList, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { EventContainer } from '../assets/event_container';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import { Audio, Video } from 'expo-av';
 import { ajax_handler, create_form_data } from '../static/js/ajaxhandler';
+import { check_logged } from '../static/js/functions.js';
 import * as Sharing from 'expo-sharing';
 import { useState, useEffect } from 'react'
 import { styles } from '../static/css/styles'
@@ -38,6 +39,11 @@ function simplifySearchResponse(data){
 
 export function Userhome({navigation}){
 
+  const [checkedForLogin, updateCheckForLogin] = useState(false)
+    if (checkedForLogin === false){
+        check_logged()
+        updateCheckForLogin(true)
+  }
   const [eventResults, updateResults] = useState([])
   const [sound, setSound] = useState();
   const [recording, setRecording] = useState();
@@ -90,6 +96,7 @@ export function Userhome({navigation}){
       }
     }
 
+    const [recordingName, updaterecordingName]= useState("")
     async function stopRecording() {
         setRecording(undefined);
         await recording.stopAndUnloadAsync();
@@ -110,39 +117,40 @@ export function Userhome({navigation}){
         });
       }
 
-      async function uploadAudioAsync(uri) {
-        console.log("Uploading " + uri);
-        let apiUrl = 'https://22nisbettl.pythonanywhere.com/uploadaudio';
-        let uriParts = uri.split('.');
-        let fileType = uriParts[uriParts.length - 1];
-      
-        let formData = new FormData();
-        formData.append('file', {
-          uri,
-          name: `recording.${fileType}`,
-          type: `audio/x-${fileType}`,
-        });
-      
-        let options = {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'multipart/form-data',
-          },
-        };
-      
-        console.log("POSTing " + uri + " to " + apiUrl);
-        return fetch(apiUrl, options);
-      }
+    async function uploadAudioAsync(uri) {
+      console.log("Uploading " + uri);
+      let apiUrl = 'https://22nisbettl.pythonanywhere.com/uploadaudio';
+      let uriParts = uri.split('.');
+      let fileType = uriParts[uriParts.length - 1];
+    
+      let formData = new FormData();
+      formData.append('file', {
+        uri,
+        name: `${UserID}${recordingName}.${fileType}`,
+        type: `audio/x-${fileType}`,
+      });
+      console.log(formData)
+    
+      let options = {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+    
+      console.log("POSTing " + uri + " to " + apiUrl);
+      return fetch(apiUrl, options);
+    }
 
-      function getDurationFormatted(millis) {
-        const minutes = millis / 1000 / 60;
-        const minutesDisplay = Math.floor(minutes);
-        const seconds = Math.round((minutes - minutesDisplay) * 60);
-        const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
-        return `${minutesDisplay}:${secondsDisplay}`;
-      }
+    function getDurationFormatted(millis) {
+      const minutes = millis / 1000 / 60;
+      const minutesDisplay = Math.floor(minutes);
+      const seconds = Math.round((minutes - minutesDisplay) * 60);
+      const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
+      return `${minutesDisplay}:${secondsDisplay}`;
+    }
       
     function getRecordingLines() {
         return recordings.map((recordingLine, index) => {
@@ -151,6 +159,11 @@ export function Userhome({navigation}){
               <Text style={styles.fill}>Recording {index + 1} - {recordingLine.duration}</Text>
               <Button style={styles.button} onPress={() => {recordingLine.sound.replayAsync();
               recordingLine.sound.setVolumeAsync(1);}} title="Play"></Button>
+              <TextInput
+                style = {styles.minput}
+                placeholder = "Enter recording name"
+                onChangeText = {(rname) => {updaterecordingName(rname)}}
+                />
               <Button style={styles.button} onPress={() => {
                 uploadAudioAsync(recordingLine.file)
                 }} title="Upload"></Button>
@@ -160,53 +173,85 @@ export function Userhome({navigation}){
         });
     }
 
+    const [modal1Visible, setModal1Visible] = useState(false);
+
     return(
-        <SafeAreaView style={styles.safeAreaView}>
-            <Text>Userhome</Text>
-                <Button title={recording ? 'Stop Recording' : 'Start Recording'}
-                onPress={recording ? stopRecording : startRecording}></Button>
-                {getRecordingLines()}
-                <View style={styles.userhomeView}>
-                  <TouchableOpacity 
-                  style= {styles.tou}
-                  onPress={() => {navigation.navigate('Lyrics')}}>
-                  <Text 
-                  style={styles.whitetext}>Lyrics Finder</Text>
-                  <Ionicons name="musical-notes" size={50} color={"white"}></Ionicons>
-                  </TouchableOpacity>
+      <SafeAreaView style={styles.safeAreaView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modal1Visible}
+          onRequestClose={() => {
+          setModal1Visible(!modal1Visible);
+          }}>
+          <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                  <SafeAreaView style={styles.safeAreaView}>
+                  <Button title={recording ? 'Stop Recording' : 'Start Recording'}
+                  onPress={recording ? stopRecording : startRecording}></Button>
+                  {getRecordingLines()}
+                  </SafeAreaView>
+                <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModal1Visible(!modal1Visible)}
+                >
+                <Text style={styles.textStyle}>Close</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+          <Text>Userhome</Text>
+          <TouchableOpacity 
+                style= {styles.tour}
+                onPress={() => {setModal1Visible(true)}}>
+                <Text 
+                style={styles.whitetext}>Audio Recordings</Text>
+                <Ionicons name="mic" size={30} color={"white"}></Ionicons>
+                </TouchableOpacity>
+            <View style={styles.userhomeView}>
+              <TouchableOpacity 
+              style= {styles.tou}
+              onPress={() => {navigation.navigate('Lyrics')}}>
+              <Text 
+              style={styles.whitetext}>Lyrics Finder</Text>
+              <Ionicons name="musical-notes" size={50} color={"white"}></Ionicons>
+              </TouchableOpacity>
 
-                  <TouchableOpacity 
-                  style= {styles.tou}
-                  onPress={() => {navigation.navigate('Search')}}>
-                  <Text 
-                  style={styles.whitetext}>Search Song</Text>
-                  <Ionicons name="information-circle-outline" size={50} color={"white"}></Ionicons>
-                  </TouchableOpacity>
+              <TouchableOpacity 
+              style= {styles.tou}
+              onPress={() => {navigation.navigate('Search')}}>
+              <Text 
+              style={styles.whitetext}>Search Song</Text>
+              <Ionicons name="information-circle-outline" size={50} color={"white"}></Ionicons>
+              </TouchableOpacity>
 
+              <TouchableOpacity 
+              style= {styles.tou}
+              onPress={() => {navigation.navigate('Events')}}>
+              <Text 
+              style={styles.whitetext}>Events</Text>
+              <Ionicons name="play" size={50} color={"white"}></Ionicons>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.htext}>My Events</Text>
+            <ScrollView>
+            <FlatList data={eventResults} extraData={eventResults} style= {{flex: 1}}
+              renderItem={({item, index}) =>{
+              return (
                   <TouchableOpacity 
-                  style= {styles.tou}
-                  onPress={() => {navigation.navigate('Events')}}>
-                  <Text 
-                  style={styles.whitetext}>Events</Text>
-                  <Ionicons name="play" size={50} color={"white"}></Ionicons>
+                    onPress={() => {
+                      const eventid = {'EventID':item.trackID}
+                      //console.log(eventid)
+                      ajax_handler('https://22nisbettl.pythonanywhere.com/react_events_delete', handleSearchResponse, create_form_data(eventid));
+                    }}>
+                    <View style={{width: Dimensions.get('window').width}} >
+                        <EventContainer source = {item.source}
+                        eventName = {item.eventName} location = {item.location} startDate = {item.startDate} endDate = {item.endDate} />
+                    </View>
                   </TouchableOpacity>
-              </View>
-              <FlatList data={eventResults} extraData={eventResults} style= {{flex: 1}}
-                renderItem={({item, index}) =>{
-                return (
-                    <TouchableOpacity 
-                        onPress={() => {
-                          const eventid = {'EventID':item.trackID}
-                          //console.log(eventid)
-                          ajax_handler('https://22nisbettl.pythonanywhere.com/react_events_delete', handleSearchResponse, create_form_data(eventid));
-                        }}>
-                        <View style={{width: Dimensions.get('window').width}} >
-                            <EventContainer source = {item.source}
-                            eventName = {item.eventName} location = {item.location} startDate = {item.startDate} endDate = {item.endDate} />
-                        </View>
-                    </TouchableOpacity>
-                )
-                } } />
-            <StatusBar style="auto" />
-        </SafeAreaView>
-        )}
+              )
+              } } />
+            </ScrollView>
+          <StatusBar style="auto" />
+      </SafeAreaView>
+    )}

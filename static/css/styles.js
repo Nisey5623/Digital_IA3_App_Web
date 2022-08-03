@@ -24,6 +24,10 @@ export const styles = StyleSheet.create({
     color: styleSheetConstants.textColour,
     fontSize: 20,
   },
+  htext: {
+    color: styleSheetConstants.textColour,
+    fontSize: 32,
+  },
   whitetext: {
     color: "#ffffff",
     fontSize: 20,
@@ -102,6 +106,14 @@ export const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1,
   },
+  minput: {
+    width: Dimensions.get('window').width * 0.9,
+    height: '12%',
+    alignContent: 'center',
+    borderRadius: 10,
+    borderColor: 'grey',
+    borderWidth: 1,
+  },
   inputlyrics: {
     width: Dimensions.get('window').width * 0.9,
     height: '23%',
@@ -148,7 +160,18 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 4,
     borderRadius: '7%',
-  },     
+  },  
+  
+  tour: {
+    alignItems: "center",
+    backgroundColor: '#ff0000',
+    padding: 10,
+    width: "70%",
+    //height: "13",
+    marginTop: 10,
+    marginLeft: 4,
+    borderRadius: '7%',
+  },  
 
   pageHeading: {
     fontSize: 35,

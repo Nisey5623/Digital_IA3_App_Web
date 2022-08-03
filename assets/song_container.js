@@ -12,8 +12,7 @@ export function SongContainer(props) {
       <View style={styles.resultContainer}>
       
         <View style = {styles.imageContainer}>
-          <Image source={{
-          }} style={{width:64, height: 64}}/>
+          <Image source={{uri:props.source}} style={{width:64, height: 64}}/>
         </View>
         <View style = {styles.detailsContainer}>
           <Text style={styles.trackName} numberOfLines={1}>{props.trackName}</Text>
