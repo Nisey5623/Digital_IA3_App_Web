@@ -9,7 +9,7 @@ import { check_logged } from '../static/js/functions.js';
 import * as Sharing from 'expo-sharing';
 import { useState, useEffect } from 'react'
 import { styles } from '../static/css/styles'
-import { UserID } from '../static/js/functions.js';
+import { UserID, Username } from '../static/js/functions.js';
 import { navigate } from '../static/js/functions.js'
 
 function simplifySearchResponse(data){
@@ -126,7 +126,7 @@ export function Userhome({navigation}){
       let formData = new FormData();
       formData.append('file', {
         uri,
-        name: `${UserID}${recordingName}.${fileType}`,
+        name: `${Username}_${recordingName}.${fileType}`,
         type: `audio/x-${fileType}`,
       });
       formData.append('database', {

@@ -4,6 +4,7 @@ import {useContext} from "react";
 import { LyricsContext } from '../../screens/lyrics';
 
 export let UserID = null;
+export let Username = null;
 export const navigationRef = createNavigationContainerRef()
 
 export function map_search(place, callback) {
@@ -96,6 +97,7 @@ export function login_success_check(object, random_crap) {
     console.log(t_or_f)
     if (t_or_f) {
         UserID = object.userid
+        Username = object.username
         random_crap.navigate("MainNav")
     }
 }
