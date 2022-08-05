@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, SafeAreaView, StyleSheet, Text, TextInput, Image, View, ScrollView, TouchableOpacity, Modal, Pressable, Dimensions, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { styles } from '../static/css/styles'
-import { event } from '../static/js/functions';
+import { event, UserID } from '../static/js/functions';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { ajax_handler, create_form_data } from '../static/js/ajaxhandler';
 import { check_logged } from '../static/js/functions';
@@ -24,13 +24,14 @@ function simplifySearchResponse(data){
         const EventName = event.EventName;
         const Location = event.Location
         const StartDate = event.StartDate
+        const TimeRange = event.TimeRange
         const EndDate = event.EndDate
         const Longitude = event.Longitude
         const Latitude = event.Latitude
         const File = event.File
         eventData.push(
             {'Latitude':Latitude, 'Longitude':Longitude,'eventName': EventName, 'previewURL': UserID, 'location': Location,
-            'startDate': StartDate, 'endDate':EndDate, 'source': File, 'trackID': eventID}
+            'startDate': StartDate, 'TimeRange':TimeRange, 'endDate':EndDate, 'source': File, 'trackID': eventID}
         );
     }
     //console.log(eventData)
@@ -45,21 +46,26 @@ export function Events({navigation}){
         updateCheckForLogin(true)
     }
 
+    {/*
     const [sdate, setSDate] = useState(new Date());
     const onSChange = (event, value) => {
-        setSDate(value);
+        const currentSdate = value;
         if (Platform.OS === 'android') {
           setIsPickerShow(false);
         }
+        setSDate(currentSdate)
+        console.log(sdate)
       };
 
     const [edate, setEDate] = useState(new Date());
     const onEChange = (event, value) => {
-        setEDate(value);
+        const currentEdate = value;
         if (Platform.OS === 'android') {
         setIsPickerShow(false);
         }
-    };
+        setEDate(currentEdate)
+        console.log(edate)
+    };*/}
 
     var [latitude, updateLatitude] = useState(0.0)
     //console.log(latitude)
@@ -75,7 +81,7 @@ export function Events({navigation}){
         //console.log(data)
     }
     useEffect(() => {
-        const interval = setInterval(() => {console.log("Test")},1000)
+        const interval = setInterval(() => {},1000)
         const event_data = {'eventSearch':eventSearch}
         //console.log(event_data)
         ajax_handler('https://22nisbettl.pythonanywhere.com/react_events_search', handleSearchResponse, create_form_data(event_data));
@@ -84,6 +90,9 @@ export function Events({navigation}){
 
     const [eventName, updateEventName]= useState("")
     const [location, updateLocation]= useState("")
+    const [sdate, updateSdate]= useState("")
+    const [edate, updateEdate]= useState("")
+    const [time, updateTime]= useState("")
 
     const region = {
         latitude: -27.439229,
@@ -136,6 +145,24 @@ export function Events({navigation}){
                                 onChangeText = {(location) => {updateLocation(location)}}
                                 />
                                 <Text style={styles.text}>Start Date</Text>
+                                <TextInput
+                                style = {styles.input}
+                                placeholder = "Enter start date : dd/mm/yyyy"
+                                onChangeText = {(start) => {updateSdate(start)}}
+                                />
+                                <Text style={styles.text}>End Date</Text>
+                                <TextInput
+                                style = {styles.input}
+                                placeholder = "Enter end date : dd/mm/yyyy"
+                                onChangeText = {(end) => {updateEdate(end)}}
+                                />
+                                <Text style={styles.text}>Time</Text>
+                                <TextInput
+                                style = {styles.input}
+                                placeholder = "Enter time range : hh:mm - hh:mm"
+                                onChangeText = {(timerange) => {updateTime(timerange)}}
+                                />
+                                {/*
                                 <DateTimePicker
                                 value={sdate}
                                 mode={'datetime'}
@@ -155,12 +182,13 @@ export function Events({navigation}){
                                 style={styles.datePicker}
                                 />
                                 <Text style={styles.pickedDate}>{edate.toUTCString()}</Text>
+                                */}
                                 <Button title="Pick an image from camera roll" onPress={pickImage} />
                                 {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                                 <TouchableOpacity
                                 style= {styles.to}
                                 onPress={() => {
-                                    event(eventName, '1', location, sdate, edate)
+                                    event(eventName, UserID, location, sdate, time, edate)
                                     setModal1Visible(false)
                                 }}
                                 >      
@@ -232,7 +260,7 @@ export function Events({navigation}){
                     }}>
                     <View style={{width: Dimensions.get('window').width}} >
                         <EventContainer source = {item.source}
-                        eventName = {item.eventName} location = {item.location} startDate = {item.startDate} endDate = {item.endDate} />
+                        eventName = {item.eventName} timerange = {item.TimeRange} location = {item.location} startDate = {item.startDate} endDate = {item.endDate} />
                     </View>
                 </TouchableOpacity>
             )

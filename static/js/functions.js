@@ -6,6 +6,11 @@ import { LyricsContext } from '../../screens/lyrics';
 export let UserID = null;
 export let Username = null;
 export const navigationRef = createNavigationContainerRef()
+export let nav = null;
+
+export function logout() {
+  UserID = null
+}
 
 export function map_search(place, callback) {
   const data = null;
@@ -52,7 +57,7 @@ export function check_logged() {
   }
   else{
     console.log("No user id")
-    navigate('Login')
+    nav.navigate('Login')
   }
 }
 
@@ -74,8 +79,8 @@ export function login(email, password, navigation) {
   ajax_handler('https://22nisbettl.pythonanywhere.com/react_login', login_success_check, create_form_data(login_data), "POST", true, navigation );
 }
 
-export function event(eventName, userid, location, startDate, endDate) {
-  const event_data = {'eventName':eventName, 'userid':userid, 'location':location,'startDate':startDate,'endDate':endDate}
+export function event(eventName, userid, location, startDate, timeRange, endDate) {
+  const event_data = {'eventName':eventName, 'userid':userid, 'location':location,'startDate':startDate, 'timeRange':timeRange, 'endDate':endDate}
   
   ajax_handler('https://22nisbettl.pythonanywhere.com/react_eventsend', console.log(), create_form_data(event_data));
 }
@@ -99,6 +104,7 @@ export function login_success_check(object, random_crap) {
         UserID = object.userid
         Username = object.username
         random_crap.navigate("MainNav")
+        nav = random_crap
     }
 }
 

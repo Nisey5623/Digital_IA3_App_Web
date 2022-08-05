@@ -150,6 +150,14 @@ export const styles = StyleSheet.create({
     width: "50%",
     marginTop: 10,
     borderRadius: '10%',
+  },   
+  tob: {
+    alignItems: "center",
+    backgroundColor: "#000000",
+    padding: 10,
+    width: "50%",
+    marginTop: 10,
+    borderRadius: '10%',
   },    
   tou: {
     alignItems: "center",

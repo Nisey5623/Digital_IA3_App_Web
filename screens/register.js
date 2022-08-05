@@ -30,6 +30,7 @@ export function Registerpage({navigation}){
             <TextInput
             style = {styles.input}
             placeholder = "Enter password"
+            secureTextEntry={true}
             onChangeText = {(passwordinfo) => {updatePassword(passwordinfo)}}
             />
             <View style={styles.namerow}>

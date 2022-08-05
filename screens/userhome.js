@@ -5,17 +5,15 @@ import { EventContainer } from '../assets/event_container';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import { Audio, Video } from 'expo-av';
 import { ajax_handler, create_form_data } from '../static/js/ajaxhandler';
-import { check_logged } from '../static/js/functions.js';
+import { check_logged, logout } from '../static/js/functions.js';
 import * as Sharing from 'expo-sharing';
 import { useState, useEffect } from 'react'
 import { styles } from '../static/css/styles'
 import { UserID, Username } from '../static/js/functions.js';
 import { navigate } from '../static/js/functions.js'
 
+//Function pulls data from the useEffect and distributes it to the event container
 function simplifySearchResponse(data){
-  //const trackItems = data.items;
-  //console.log(data)
-  //console.log(trackItems)
   let eventData = [];
   for (let i = 0; i < data.length; i++){
       const event = data[i];
@@ -24,19 +22,20 @@ function simplifySearchResponse(data){
       const EventName = event.EventName;
       const Location = event.Location
       const StartDate = event.StartDate
+      const TimeRange = event.TimeRange
       const EndDate = event.EndDate
       const Longitude = event.Longitude
       const Latitude = event.Latitude
       const File = event.File
       eventData.push(
           {'Latitude':Latitude, 'Longitude':Longitude,'eventName': EventName, 'previewURL': UserID, 'location': Location,
-          'startDate': StartDate, 'endDate':EndDate, 'source': File, 'trackID': eventID}
+          'startDate': StartDate, 'TimeRange':TimeRange, 'endDate':EndDate, 'source': File, 'trackID': eventID}
       );
   }
-  //console.log(eventData)
   return eventData
 }
 
+//Screen function
 export function Userhome({navigation}){
 
   const [checkedForLogin, updateCheckForLogin] = useState(false)
@@ -59,6 +58,7 @@ export function Userhome({navigation}){
     const interval = setInterval(() => {console.log("Test")},1000)
     const userid = {'UserID':UserID}
     //console.log(userid)
+    check_logged()
     ajax_handler('https://22nisbettl.pythonanywhere.com/react_events_user', handleSearchResponse, create_form_data(userid));
     return () => clearInterval(interval)
   })  
@@ -238,7 +238,7 @@ export function Userhome({navigation}){
               </TouchableOpacity>
             </View>
             <Text style={styles.htext}>My Events</Text>
-            <ScrollView>
+            <ScrollView style={styles.scrollView}>
             <FlatList data={eventResults} extraData={eventResults} style= {{flex: 1}}
               renderItem={({item, index}) =>{
               return (
@@ -250,12 +250,18 @@ export function Userhome({navigation}){
                     }}>
                     <View style={{width: Dimensions.get('window').width}} >
                         <EventContainer source = {item.source}
-                        eventName = {item.eventName} location = {item.location} startDate = {item.startDate} endDate = {item.endDate} />
+                        eventName = {item.eventName} timerange = {item.TimeRange} location = {item.location} startDate = {item.startDate} endDate = {item.endDate} />
                     </View>
                   </TouchableOpacity>
               )
               } } />
             </ScrollView>
+            <TouchableOpacity
+                style= {styles.tob}
+                onPress={() => {
+                    logout()
+                }}
+            ><Text style={styles.whitetext}>Logout</Text></TouchableOpacity>
           <StatusBar style="auto" />
       </SafeAreaView>
     )}

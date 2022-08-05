@@ -19,6 +19,7 @@ export function EventContainer(props) {
         <View style = {styles.detailsContainer}>
           <Text style={styles.eventName} numberOfLines={1}>{props.eventName}</Text>
           <Text style={styles.location} numberOfLines={1}>{props.location}</Text>
+          <Text style={styles.location} numberOfLines={1}>{props.timerange}</Text>
           <Text style={styles.dates} numberOfLines={1}>{props.startDate} - {props.endDate}</Text>
         </View>
       </View>
