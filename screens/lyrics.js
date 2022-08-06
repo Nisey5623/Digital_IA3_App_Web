@@ -12,17 +12,22 @@ export const LyricsContext = createContext({
 });
 
 export function Lyrics({navigation}){
+    {/* Modal visible or invisible */}
     const [modalVisible, setModalVisible] = useState(false);
+
+    {/* Powerlyrics API constants */}
     const {lyrics} = useContext(LyricsContext);
     const {setLyrics} = useContext(LyricsContext);
     const [lyrics2, setLyrics2] = useState('')
     const [name, updateName]= useState("")
     const [artist, updateArtist]= useState("")
     const [checkedForLogin, updateCheckForLogin] = useState(false)
+    {/* Checks if user is logged in */}
     if (checkedForLogin === false){
         check_logged()
         updateCheckForLogin(true)
     }
+    {/* Lyrics is showed in a modal */}
     return(
         <ScrollView style={styles.scrollView}>
             <SafeAreaView style={styles.safeAreaView}>
@@ -65,6 +70,7 @@ export function Lyrics({navigation}){
                 onPress={() => {
                         const song_data = {'name':name, 'artist':artist}
                         console.log(song_data)
+                        {/* Sends search input to server using AJAX handler */}
                         ajax_handler('https://22nisbettl.pythonanywhere.com/getpowerlyrics', (object)=>{
                             setLyrics2(object.lyrics);
                             

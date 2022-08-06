@@ -6,6 +6,7 @@ import { navigate } from '../static/js/functions.js'
 import { spotify_search } from '../static/js/functions.js'
 import { SongContainer } from '../assets/song_container.js'
 
+{/*Function pulls data from the useEffect and distributes it to the song container*/}
 function simplifySearchResponse(data){
     const trackItems = data.tracks.items;
     let trackData = [];
@@ -32,6 +33,7 @@ function simplifySearchResponse(data){
 
 export function Search({navigation}){
     
+    {/* Spotify API constants and results updating */}
     const [spotifyResults, updateResults] = useState([])
     const [searchInput, updateInput] = useState('')
     const handleSearchResponse = data => {
@@ -51,6 +53,7 @@ export function Search({navigation}){
             <TouchableOpacity
             style= {styles.to}
             onPress ={() => {
+                {/* Search input button */}
                 spotify_search(searchInput, handleSearchResponse)
             }}
             ><Text 

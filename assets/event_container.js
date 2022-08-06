@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, Dimensions, TouchableWithoutFeedback} from 'react-native';
+import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import Constants from 'expo-constants';
 
 // import Sound from 'react-native-audio';
@@ -12,9 +12,13 @@ export function EventContainer(props) {
       <View style={styles.resultContainer}>
       
         <View style = {styles.imageContainer}>
-          <Image source={{
-            uri: props.source,
-          }} style={{width:64, height: 64}}/>
+          <TouchableOpacity style={{
+            marginTop: 5,
+            width:68, 
+            height: 68,
+            backgroundColor: `${props.colour}`,
+            borderRadius:10
+            }}/>
         </View>
         <View style = {styles.detailsContainer}>
           <Text style={styles.eventName} numberOfLines={1}>{props.eventName}</Text>

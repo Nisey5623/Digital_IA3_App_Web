@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, SafeAreaView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { Component, useState } from 'react'
-import { CustomDrawer } from './static/js/custom.js';
 import 'react-native-gesture-handler';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,11 +18,11 @@ import { Search } from './screens/search.js';
 import { Events } from './screens/events.js';
 import { navigationRef } from './static/js/functions.js';
 
-const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 const MainNav = createStackNavigator();
 
 export default function App() {
+  {/* First navigator that is opnened on app start for login and register screens */}
   return(
     <NavigationContainer>
   <MainNav.Navigator>
@@ -35,33 +34,7 @@ export default function App() {
 }
 
 function MainApp() {
-  {/*
-  <NavigationContainer ref={navigationRef}>
-  <Drawer.Navigator 
-  screenOptions={{
-    headerShown: true,
-    headerTitleStyle: {
-      color: 'white'
-    },
-    
-  }}> 
-    <Drawer.Screen name="Login" component={Loginpage} />
-    <Drawer.Screen name="Register" component={Registerpage} />
-    <Drawer.Screen name="Userhome" component={Userhome} />
-    <Drawer.Screen name="Lyrics" component={Lyrics} />
-    <Drawer.Screen name="Search" component={Search} />
-    <Drawer.Screen name="Events" component={Events} />
-  </Drawer.Navigator>
-  <SafeAreaView style= {styles.bottomView}>
-  <TouchableOpacity
-        style= {styles.bto}
-        onPress={() => {
-            setModal1Visible(true)
-        }}
-        ><Text style={styles.bottomtext}>Create Event</Text></TouchableOpacity>
-  </SafeAreaView>
-      </NavigationContainer>*/}
-
+  {/* Tab Navigator for userhome, search screen, lyrics screen and events screen */}
   return (
       <Tab.Navigator screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {

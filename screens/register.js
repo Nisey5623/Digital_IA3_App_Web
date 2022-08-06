@@ -5,6 +5,7 @@ import { styles } from '../static/css/styles';
 import { register } from '../static/js/functions';
 
 export function Registerpage({navigation}){
+    {/* Register form data */}
     const [email, updateEmail]= useState("")
     const [password, updatePassword]= useState("")
     const [fname, updateFname]= useState("")

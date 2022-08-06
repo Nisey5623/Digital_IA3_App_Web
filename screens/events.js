@@ -12,10 +12,8 @@ import { Marker } from 'react-native-maps';
 import * as ImagePicker from 'expo-image-picker'
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+{/*Function pulls data from the useEffect and distributes it to the event container*/}
 function simplifySearchResponse(data){
-    //const trackItems = data.items;
-    //console.log(data)
-    //console.log(trackItems)
     let eventData = [];
     for (let i = 0; i < data.length; i++){
         const event = data[i];
@@ -28,95 +26,57 @@ function simplifySearchResponse(data){
         const EndDate = event.EndDate
         const Longitude = event.Longitude
         const Latitude = event.Latitude
-        const File = event.File
+        const Colour = event.Colour
         eventData.push(
             {'Latitude':Latitude, 'Longitude':Longitude,'eventName': EventName, 'previewURL': UserID, 'location': Location,
-            'startDate': StartDate, 'TimeRange':TimeRange, 'endDate':EndDate, 'source': File, 'trackID': eventID}
+            'startDate': StartDate, 'TimeRange':TimeRange, 'endDate':EndDate, 'Colour': Colour, 'trackID': eventID}
         );
     }
-    //console.log(eventData)
     return eventData
 }
 
 export function Events({navigation}){
     
+    
+    {/* Checks user is logged in */}
     const [checkedForLogin, updateCheckForLogin] = useState(false)
     if (checkedForLogin === false){
         check_logged()
         updateCheckForLogin(true)
     }
 
-    {/*
-    const [sdate, setSDate] = useState(new Date());
-    const onSChange = (event, value) => {
-        const currentSdate = value;
-        if (Platform.OS === 'android') {
-          setIsPickerShow(false);
-        }
-        setSDate(currentSdate)
-        console.log(sdate)
-      };
-
-    const [edate, setEDate] = useState(new Date());
-    const onEChange = (event, value) => {
-        const currentEdate = value;
-        if (Platform.OS === 'android') {
-        setIsPickerShow(false);
-        }
-        setEDate(currentEdate)
-        console.log(edate)
-    };*/}
-
+    {/* Modals and coordinate variables and constants */}
     var [latitude, updateLatitude] = useState(0.0)
-    //console.log(latitude)
     var [longitude, updateLongitude] = useState(0.0)
-    //console.log(longitude)
     const [modal1Visible, setModal1Visible] = useState(false);
     const [modal2Visible, setModal2Visible] = useState(false);
     const [eventResults, updateResults] = useState([])
 
+    {/* Event search input constantly updates */}
     const [eventSearch, updateSearch] = useState("")
     const handleSearchResponse = data => {
         updateResults(simplifySearchResponse(data))
-        //console.log(data)
     }
     useEffect(() => {
         const interval = setInterval(() => {},1000)
         const event_data = {'eventSearch':eventSearch}
-        //console.log(event_data)
         ajax_handler('https://22nisbettl.pythonanywhere.com/react_events_search', handleSearchResponse, create_form_data(event_data));
         return () => clearInterval(interval)
     })
 
+    {/* Create event form data */}
     const [eventName, updateEventName]= useState("")
     const [location, updateLocation]= useState("")
     const [sdate, updateSdate]= useState("")
     const [edate, updateEdate]= useState("")
     const [time, updateTime]= useState("")
+    const [colour, updateColour]= useState("")
 
     const region = {
         latitude: -27.439229,
         longitude: 152.9777076,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
-      };
-
-    const [image, setImage] = useState(null);
-
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-    
-        console.log(result);
-    
-        if (!result.cancelled) {
-          setImage(result.uri);
-        }
       };
 
     return(
@@ -162,33 +122,17 @@ export function Events({navigation}){
                                 placeholder = "Enter time range : hh:mm - hh:mm"
                                 onChangeText = {(timerange) => {updateTime(timerange)}}
                                 />
-                                {/*
-                                <DateTimePicker
-                                value={sdate}
-                                mode={'datetime'}
-                                display={Platform.OS === 'ios' ? 'default' : 'default'}
-                                is24Hour={true}
-                                onChange={onSChange}
-                                style={styles.datePicker}
+                                <Text style={styles.text}>Colour of event</Text>
+                                <TextInput
+                                style = {styles.input}
+                                placeholder = "Enter colour name or HTML colour code"
+                                onChangeText = {(color) => {updateColour(color)}}
                                 />
-                                <Text style={styles.pickedDate}>{sdate.toUTCString()}</Text>
-                                <Text style={styles.text}>End Date</Text>
-                                <DateTimePicker
-                                value={edate}
-                                mode={'datetime'}
-                                display={Platform.OS === 'ios' ? 'default' : 'default'}
-                                is24Hour={true}
-                                onChange={onEChange}
-                                style={styles.datePicker}
-                                />
-                                <Text style={styles.pickedDate}>{edate.toUTCString()}</Text>
-                                */}
-                                <Button title="Pick an image from camera roll" onPress={pickImage} />
-                                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                                 <TouchableOpacity
                                 style= {styles.to}
                                 onPress={() => {
-                                    event(eventName, UserID, location, sdate, time, edate)
+                                    event(eventName, UserID, location, sdate, time, edate, colour)
+                                    uploadImageAsync({uri : image })
                                     setModal1Visible(false)
                                 }}
                                 >      
@@ -221,8 +165,6 @@ export function Events({navigation}){
                                     latitudeDelta: 0.09,
                                     longitudeDelta: 0.09,
                                   }}><Marker
-                                //latitude={latitude}
-                                //longitude={longitude}
                                 pinColor={"red"}
                                 coordinate={{latitude: latitude,longitude: longitude,}}
                                 ></Marker></MapView>
@@ -254,12 +196,13 @@ export function Events({navigation}){
             return (
                 <TouchableOpacity 
                     onPress={() => {
+                        {/* Map of event */}
                         updateLatitude(item.Latitude)
                         updateLongitude(item.Longitude)
                         setModal2Visible(true)
                     }}>
                     <View style={{width: Dimensions.get('window').width}} >
-                        <EventContainer source = {item.source}
+                        <EventContainer colour = {item.Colour}
                         eventName = {item.eventName} timerange = {item.TimeRange} location = {item.location} startDate = {item.startDate} endDate = {item.endDate} />
                     </View>
                 </TouchableOpacity>

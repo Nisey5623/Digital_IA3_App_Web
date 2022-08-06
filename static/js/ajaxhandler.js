@@ -1,4 +1,4 @@
-
+{/* Creates form data to be handled by Python Anywhere server */}
 export function create_form_data(data){
     const form_data = new FormData();
     const key_array = Object.keys(data);
@@ -8,6 +8,7 @@ export function create_form_data(data){
     return form_data
  }
 
+{/* AJAX handler sends form data to server */}
 export function ajax_handler(url, callback=console.log, form_object=null, request_method='POST', async_var = true, random_crap={}){
     const XMLhr = new XMLHttpRequest();
 

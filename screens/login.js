@@ -5,6 +5,7 @@ import { styles } from '../static/css/styles'
 import { login, navigate } from '../static/js/functions.js'
 
 export function Loginpage({navigation}){
+    {/* Login form data */}
     const [email, updateEmail]= useState("")
     const [password, updatePassword]= useState("")
 
